@@ -10,7 +10,6 @@ from ContestInfo import ContestInfo
 from pprint import pprint
 
 URL = "http://codeforces.com/contests"
-CONTEST_INFO_KEYS = ["event_name", "starting_date", "event_duratoin", "registration_ddl"]
 
 def get_page():
     headers={
