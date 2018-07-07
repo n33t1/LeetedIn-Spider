@@ -1,12 +1,8 @@
-#!/usr/bin/env python -OO
-# -*- coding: utf-8 -*-
-
+from lxml import etree
 import requests
 from requests.exceptions import RequestException
 import re
 import json
-from pyquery import PyQuery as pq
-from ContestInfo import ContestInfo
 from pprint import pprint
 
 URL = "http://codeforces.com/contests"
@@ -25,21 +21,22 @@ def get_page():
 
 def parse_page(html):
 	print "now parsing..."
-	doc = pq(html)
-	data = {}
-	try:
-		dataTable = doc("#pageContent > div > div.datatable > div > table > tr:gt(0)")
-		if not dataTable or len(dataTable) == 0:
-			raise Exception("No Upcoming Event!")
-		else:
-			for tr in dataTable.items():
-				event_id = int(tr.attr('data-contestid'))
-				event_info = ContestInfo(tr)
-				data[event_id] = event_info
-	except Exception as e:
-		print e
-	finally:
-		return data
+	return ""
+	# doc = pq(html)
+	# data = {}
+	# try:
+	# 	dataTable = doc("#pageContent > div > div.datatable > div > table > tr:gt(0)")
+	# 	if not dataTable or len(dataTable) == 0:
+	# 		raise Exception("No Upcoming Event!")
+	# 	else:
+	# 		for tr in dataTable.items():
+	# 			event_id = int(tr.attr('data-contestid'))
+	# 			event_info = ContestInfoParser(tr)
+	# 			data[event_id] = event_info
+	# except Exception as e:
+	# 	print e
+	# finally:
+	# 	return data
 
 def main():
 	html = get_page()

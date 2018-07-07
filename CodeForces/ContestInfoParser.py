@@ -9,7 +9,7 @@ import pytz
 import calendar
 
 DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
-class ContestInfo:
+class ContestInfoParser:
 	def __init__(self, tr):
 		self.tr = tr
 		self.res = {}
