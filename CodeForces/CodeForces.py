@@ -9,42 +9,43 @@ from pyquery import PyQuery as pq
 from ContestInfoParser import ContestInfoParser
 from pprint import pprint
 
-URL = "http://codeforces.com/contests"
+URL = ["http://codeforces.com/contests"]
 
-def get_page():
+def get_page(url):
     headers={
         "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36" 
     }
     try:
-        response=requests.get(URL, headers=headers, timeout=2)
-        if response.status_code==200:
-            return response.text
-        return None
+		print "downloading %s" % url
+		response=requests.get(url, headers=headers, timeout=2)
+		if response.status_code==200:
+			return response.text
+		return None
     except RequestException as e:
         return "Something went wrong! Error: " + e
 
 def parse_page(html):
-	print "now parsing..."
+	print "now parsing ..."
 	doc = pq(html)
-	data = {}
+	data = []
 	try:
 		dataTable = doc("#pageContent > div > div.datatable > div > table > tr:gt(0)")
 		if not dataTable or len(dataTable) == 0:
 			raise Exception("No Upcoming Event!")
 		else:
-			for tr in dataTable.items():
-				event_id = int(tr.attr('data-contestid'))
-				event_info = ContestInfoParser(tr)
-				data[event_id] = event_info
+			data = ContestInfoParser(dataTable).data
 	except Exception as e:
 		print e
 	finally:
 		return data
 
 def main():
-	html = get_page()
-	json = parse_page(html)
-	pprint(json)
+	res = []
+	for url in URL:
+		html = get_page(url)
+		temp = parse_page(html)
+		res.extend(temp)
+	pprint(res)
 
 if __name__ == "__main__":
 	main()

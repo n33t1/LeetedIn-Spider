@@ -7,9 +7,28 @@ from datetime import datetime, timedelta
 from pytz import timezone
 import pytz
 import calendar
+from pyquery import PyQuery as pq
 
 DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
+
 class ContestInfoParser:
+	def __init__(self, events):
+		self.events = events
+		self.data = []
+		self.run()
+	
+	def run(self):
+		res = {}
+		res['event_title'] = 'CodeForces'
+		res['events'] = []
+		for tr in self.events.items():
+			event_id = tr.attr('data-contestid')
+			event_info = EventParser(tr).res
+			event_info['url'] = "http://codeforces.com/contests/" + event_id
+			res['events'].append(event_info)
+		self.data.append(res)
+
+class EventParser:
 	def __init__(self, tr):
 		self.tr = tr
 		self.res = {}
@@ -23,25 +42,25 @@ class ContestInfoParser:
 	def run(self):
 		# parse for contest name
 		try:
-			self.res['event_name'] = self.tr("td:nth-child(1)").text()
-			self.res['registration_ddl'] = self.registration_ddl_helper()
-			self.res['starting_date'] = self.start_date_helper()
-			self.res['event_duratoin'] = self.event_length_helper()
+			self.res['name'] = self.event_name_helper()
+			self.res['registrationDeadline'] = self.registration_ddl_helper()
+			self.res['startDateTime'] = self.start_date_helper()
+			self.res['duratoin'] = self.event_length_helper()
 		except Exception as e:
 			print e
 			print "ContestInfo parse failed!"
 		finally:
 			return self.res
 
+	def event_name_helper(self):
+		return self.tr("td:nth-child(1)").text()
+
 	def registration_ddl_helper(self):
 		td = self.tr("td:nth-child(6)")
 		reg_ddl_str = td.text()
-		if re.search(r'Before registration', reg_ddl_str):
+		if re.search(r'Before registration', reg_ddl_str) or re.search(r'Until closing', reg_ddl_str):
 			timestamp = datetime.utcnow()
-			reg_ddl = re.findall("(\d+)\s(.*?)$", reg_ddl_str) or re.findall("(\d+):(\d+):(\d+)", reg_ddl_str)
-		elif re.search(r'Until closing', reg_ddl_str):
-			timestamp = datetime.utcnow()
-			reg_ddl = re.findall(".*?Until closing.*?(\d+)\s(.*?)$", reg_ddl_str) or re.findall("(\d+):(\d+):(\d+)", reg_ddl_str)
+			reg_ddl = re.findall("(\d+):(\d+):(\d+)", reg_ddl_str) or re.findall("(\d+)\s(.*?)$", reg_ddl_str)
 		# if the event starts in less than 1 day, CF website will show
 		# a live countdown.
 		try:
@@ -95,12 +114,4 @@ class ContestInfoParser:
 		elif len(dt) == 2: # hours
 			h, m = map(int, list(dt))
 			minutes = h*60+m
-		# shift now
-		dt = self.utc_dt + timedelta(minutes=minutes)
-		# formated reg ddl datetime obj
-		dt = dt.replace(second=0, microsecond=0)
-		# conver to milli sec 
-		millisec = calendar.timegm(dt.timetuple())
-		# # convert back to formated string to verify
-		# print(datetime.utcfromtimestamp(float(registration_ddl_millisec)))
-		return millisec
+		return minutes
