@@ -25,9 +25,10 @@ List of coding contests scraped and Python crawler libraries used:
   * url: https://code.google.com/codejam/schedule, https://code.google.com/codejam/kickstart/schedule
   * However, Google Code Jam has more than one contest event. The entire [Google Code Jam Family](https://code.google.com/codejam/past-contests) consists of Google Code Jam, Distributed Code Jam 2018, Google Code Jam Kickstart, Google Code Jam I/O for Woman, and other contests. And their schedule are likely to be stored in different webpages. With the url listed above, we were only able to scrape Google Code Jam, Distributed Code Jam and Google Code Jam Kickstart. Also, their website are likely to change each year. We should also use a monitor to watch for possible changes. 
 
-* __[LeetCode Contest](https://leetcode.com/contest/)__: requests, ajax
+* __[LeetCode Weekly Contest](https://leetcode.com/contest/)__: I tried to request from their graphQL API, but it seems like x-csrftoken (or other possible incorrect information in header) was causing trouble. So I'm temporarily using Selenium to fetch the data, although it's facing proformance bottlenecks.
+  * Selenium, re
 
-AtCoder
+* __[AtCoder](https://atcoder.jp/contest)__: Contests info stored in static html. Easy Peasy. 
 
 Facebook Hacker Cup
 
