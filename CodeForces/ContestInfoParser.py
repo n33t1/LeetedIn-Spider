@@ -12,9 +12,10 @@ from pyquery import PyQuery as pq
 DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
 class ContestInfoParser:
-	def __init__(self, events):
+	def __init__(self, events, url=None):
 		self.events = events
 		self.data = []
+		self.url = url
 		self.run()
 	
 	def run(self):

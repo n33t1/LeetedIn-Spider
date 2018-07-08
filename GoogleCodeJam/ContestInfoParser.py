@@ -12,24 +12,30 @@ from pprint import pprint
 DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
 class ContestInfoParser:
-	def __init__(self, events):
+	def __init__(self, events, url):
 		self.events = events
+		self.url = url
 		self.data = []
 		self.run()
 	
 	def run(self):
-		for e in self.events:
-			res = {}
-			res['events'] = EventParser(e['events']).res
-			res['event_title'] = e['event_title']
-			if 'event_info' in e.keys():
-				res['event_info'] = e['event_info']
-			self.data.append(res)
+		for ee in self.events:
+			res_events = {}
+			res_events['event_title'] = ee['event_title']
+			if 'event_info' in ee.keys():
+				res_events['event_info'] = ee['event_info']
+			res_events['events'] = []
+		
+			for e in ee['events']:
+				res_events['events'].append(EventParser(e, self.url).res)
+			
+			self.data.append(res_events)
 
 class EventParser:
-	def __init__(self, events):
-		self.events = events
-		self.res = []
+	def __init__(self, event, url):
+		self.event = event
+		self.url = url
+		self.res = {}
 		self.reg_ddl_millisec = None 
 		self.run()
 
@@ -39,30 +45,27 @@ class EventParser:
 	
 	def run(self):	
 		try:
-			for e in self.events:
-				temp = {}
-				temp['url'] = 'https://code.google.com/codejam/'
-				if e['name'] == 'Registration':
-					# duration is in minutes
-					startDateTime, duration = e['startDateTime'], e['duration']
-					startDateTime = datetime.strptime(startDateTime.split('+')[0], '%Y-%m-%dT%H:%M:%S')
-					utc_dt = startDateTime + timedelta(minutes=duration)
-					self.reg_ddl_millisec = calendar.timegm(utc_dt.timetuple())					
+			self.res['url'] = self.url
+			if self.event['name'] == 'Registration':
+				# duration is in minutes
+				startDateTime, duration = self.event['startDateTime'], self.event['duration']
+				startDateTime = datetime.strptime(startDateTime.split('+')[0], '%Y-%m-%dT%H:%M:%S')
+				utc_dt = startDateTime + timedelta(minutes=duration)
+				self.reg_ddl_millisec = calendar.timegm(utc_dt.timetuple())					
+			else:
+				self.res['name'] = self.event['name']
+				self.res['startDateTime'] = self.strToMillisec(self.event['startDateTime'])
+				self.res['duration'] = int(self.event['duration'])
+
+				if self.event['name'] == 'Practice Session':
+					self.res['prerequisite'] = ""
 				else:
-					temp['name'] = e['name']
-					temp['startDateTime'] = self.strToMillisec(e['startDateTime'])
-					temp['duration'] = int(e['duration'])
+					self.res['prerequisite'] = "You have to pass previous rounds!"
 
-					if e['name'] == 'Practice Session':
-						temp['prerequisite'] = ""
-					else:
-						temp['prerequisite'] = "You have to pass previous rounds!"
-
-					if e['name'] == 'Qualification Round':
-						temp['registrationDeadline'] = self.reg_ddl_millisec
-					else:
-						temp['registrationDeadline'] = temp['startDateTime']
-				self.res.append(temp)
+				if self.event['name'] == 'Qualification Round':
+					self.res['registrationDeadline'] = self.reg_ddl_millisec
+				else:
+					self.res['registrationDeadline'] = self.res['startDateTime']
 		except Exception as e:
 			print e
 			print "ContestInfo parse failed!"
@@ -74,7 +77,6 @@ class EventParser:
 		millisec = calendar.timegm(dt.timetuple())
 		return millisec
 
-	
 	def event_name_helper(self):
 		pass
 
