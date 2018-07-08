@@ -47,7 +47,7 @@ Codewars
 
 hackerearth
 
-## Installation
+## Setup
 ```
 pip install requirements
 ```

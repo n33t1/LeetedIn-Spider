@@ -12,17 +12,19 @@ from pprint import pprint
 URL = ["http://codeforces.com/contests"]
 
 def get_page(url):
-    headers={
-        "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36" 
+	headers={
+		"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36" 
     }
-    try:
+	res = None
+	try:
 		print "downloading %s" % url
 		response=requests.get(url, headers=headers, timeout=2)
 		if response.status_code==200:
-			return response.text
-		return None
-    except RequestException as e:
-        return "Something went wrong! Error: " + e
+			res = response.text
+	except Exception as e:
+		print "Something went wrong! Error: " + e
+	finally:
+		return res
 
 def parse_page(html):
 	print "now parsing ..."
@@ -43,6 +45,8 @@ def main():
 	res = []
 	for url in URL:
 		html = get_page(url)
+		if not html:
+			continue
 		temp = parse_page(html)
 		res.extend(temp)
 	pprint(res)
