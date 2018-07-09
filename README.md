@@ -37,9 +37,7 @@ List of coding contests scraped and Python crawler libraries used:
 
 * __[HackerRank](https://www.hackerrank.com/contests)__: All active contest info can be fetched with [this url](https://www.hackerrank.com/rest/contests/upcoming?offset=0&limit=10&contest_slug=active). 
 
-Kaggle 
-
-CodeChef
+* __[CodeChef](https://www.codechef.com/contests)__: Static HTML page as well. Pretty standard. 
 
 TopCoder
 
@@ -52,6 +50,8 @@ CodeEval
 Codewars
 
 hackerearth
+
+Kaggle 
 
 ## Setup
 ```
