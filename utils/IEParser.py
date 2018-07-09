@@ -1,33 +1,9 @@
 #!/usr/bin/env python -OO
 # -*- coding: utf-8 -*-
 
-import re
-from lxml import etree
-from datetime import datetime, timedelta
-from pytz import timezone
-import pytz
-import calendar
+import traceback
 
-class AbstractEventsParser:
-	def __init__(self, eParser, events, title, url=None):
-		self.data = []
-		self.run(eParser, title, events, url)
-	
-	def __repr__(self):
-		print "Events parsed: "
-		from pprint import pformat
-		return pformat(self.data, indent=4, width=1)
-
-	def run(self, eParser, title, events, url):
-		info = {}
-		info['event_title'] = "AtCoder"
-		info['events'] = []
-
-		for event in events:
-			info['events'].append(eParser(event).res)
-		self.data.append(info)
-
-class AbstractEParser:
+class IEParser:
 	DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
 	def __init__(self, event, url=None):
@@ -47,16 +23,14 @@ class AbstractEParser:
 			self.res['startDateTime'] = self.start_date_helper()
 			self.res['registrationDeadline'] = self.registration_ddl_helper() or self.res['startDateTime']
 			self.res['duratoin'] = self.event_length_helper()
+			self.res['endDateTime'] = self.res['startDateTime'] + self.res['duratoin'] * 60
 		except Exception as e:
-			print 'ContestInfo parse failed! Error: {}'.format(repr(e))
+			print "IEParser parse failed! Error: {}".format(repr(e))
+			traceback.print_exc()
 		finally:
-			return self.res
-	
-	# def strToMillisec(self, dt):
-	# 	dt = datetime.strptime(dt.split('+')[0], '%Y-%m-%dT%H:%M:%S')
-	# 	millisec = calendar.timegm(dt.timetuple())
-	# 	return millisec
-
+			# print self.res
+			return self.res 
+			
 	def event_name_helper(self):
 		raise NotImplementedError
 

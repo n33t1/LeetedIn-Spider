@@ -10,7 +10,8 @@ Scraper for popular coding contests. Currently only scrapying active contests.
 		 'startDateTime':
 		 'registrationDeadline':,
 		 'url':,
-		 'prerequisite': optional
+		 'prerequisite': optional,
+		 'addtionalInfo': optional
 	 ]
 	}
 ]
