@@ -1,32 +1,6 @@
 #!/usr/bin/env python -OO
 # -*- coding: utf-8 -*-
 
-'''
-<tr>
-                                <td class="text-center"><a href="http://www.timeanddate.com/worldclock/fixedtime.html?iso=20120625T0000&amp;p1=248" target="_blank">2012/06/25 00:00</a></td>
-                                <td><a href="https://practice.contest.atcoder.jp">practice contest</a></td>
-                                <td class="text-center">&#8734;</td>
-                                <td class="text-center">
-                                        <table width="100%">
-                                                <tr><td class="text-right" width="50%">Participate</td><td><b>All</b></td></tr>
-                                                <tr><td class="text-right" width="50%">Rated</td><td><b>&#215;</b></td></tr>
-                                        </table>
-                                </td>
-                        </tr>
-
-
-<tr>
-                                <td class="text-center"><a href="http://www.timeanddate.com/worldclock/fixedtime.html?iso=20180714T2100&amp;p1=248" target="_blank">2018/07/14 21:00</a></td>
-                                <td><a href="https://agc026.contest.atcoder.jp">AtCoder Grand Contest 026</a></td>
-                                <td class="text-center">01:50</td>
-                                <td class="text-center">
-                                        <table width="100%">
-                                                <tr><td class="text-right" width="50%">Participate</td><td><b>All</b></td></tr>
-                                                <tr><td class="text-right" width="50%">Rated</td><td><b>All</b></td></tr>
-                                        </table>
-                                </td>
-                        </tr>
-'''
 import re
 from lxml import etree
 from datetime import datetime, timedelta
