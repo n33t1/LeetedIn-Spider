@@ -18,9 +18,15 @@ class EventsParser:
 		for event in events:
 			try:
 				temp = eParser(event).res
+<<<<<<< HEAD
 			except Exception as e:
 				pass
 			else:
 				# print event
 				info['events'].append(temp)
+=======
+				info['events'].append(temp)
+			except Exception:
+				continue
+>>>>>>> dev
 		self.data.append(info)
