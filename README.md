@@ -1,5 +1,5 @@
 # CodingContestsCrawler
-Scraper for popular coding contests.
+Scraper for popular coding contests. Currently only scrapying active contests. 
 
 [
 	{'event_title': '', 
@@ -29,10 +29,14 @@ List of coding contests scraped and Python crawler libraries used:
   * Selenium, re
 
 * __[AtCoder](https://atcoder.jp/contest)__: Contests info stored in static html. Easy Peasy. 
+  * ... aND I LIED. I tried to experiment around with lxml (aka XPATH). It was a torture, altough on performance it beats all other selectors (pyquery, bs4, etc). So far I prefer pyquery the most.  
+  * requests, XPATH(lxml)
 
-Facebook Hacker Cup
+* __[Facebook Hacker Cup](https://www.facebook.com/hackercup)__: All the info stored in a Facebook group. Hard to read directly. Will come back later. ###TODO
 
-HackerRank
+* __[HackerRank](https://www.hackerrank.com/contests)__: All active contest info can be fetched with [this url](https://www.hackerrank.com/rest/contests/upcoming?offset=0&limit=10&contest_slug=active). 
+
+Kaggle 
 
 CodeChef
 
