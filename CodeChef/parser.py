@@ -1,5 +1,6 @@
 #!/usr/bin/env python -OO
 # -*- coding: utf-8 -*-
+
 import sys, os
 sys.path.append(os.path.abspath(__file__ + "/../../"))
 
@@ -85,6 +86,5 @@ class EParser(IEParser):
 			else:
 				return minutes
 		
-	
 	def event_info_helper(self):
 		pass

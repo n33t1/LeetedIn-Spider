@@ -1,9 +1,5 @@
 # CodingContestsCrawler
-<<<<<<< HEAD
-Scraper for popular coding contests. Currently only scrapying active contests. 
-=======
 Scraper for popular coding contests and programming challenges. Currently only scrapying active contests. 
->>>>>>> b68c76be771c59e9cbba33ebf129a2e32229cc68
 
 [
 	{'event_title': '', 
@@ -38,15 +34,6 @@ List of coding contests scraped and Python crawler libraries used:
 
 * __[AtCoder](https://atcoder.jp/contest)__: Contests info stored in static html. Easy Peasy. 
   * ... aND I LIED. I tried to experiment around with lxml (aka XPATH). It was a torture, altough on performance it beats all other selectors (pyquery, bs4, etc). So far I prefer pyquery the most.  
-<<<<<<< HEAD
-  * requests, XPATH(lxml)
-
-* __[Facebook Hacker Cup](https://www.facebook.com/hackercup)__: All the info stored in a Facebook group. Hard to read directly. Will come back later. ###TODO
-
-* __[HackerRank](https://www.hackerrank.com/contests)__: All active contest info can be fetched with [this url](https://www.hackerrank.com/rest/contests/upcoming?offset=0&limit=10&contest_slug=active). 
-
-* __[CodeChef](https://www.codechef.com/contests)__: Static HTML page as well. Pretty standard. 
-=======
   * type: coding contest
   * requests, XPATH(lxml)
 
@@ -60,9 +47,8 @@ List of coding contests scraped and Python crawler libraries used:
 
 * <s>__[Facebook Hacker Cup](https://www.facebook.com/hackercup)__</s>: All the info stored in a Facebook group. Hard to read directly given info we need is stored in human written posts. Probly easy to add manually. 
   * type: coding contest
->>>>>>> b68c76be771c59e9cbba33ebf129a2e32229cc68
 
-* __[TopCoder](https://www.topcoder.com/community/competitive-programming/)__: Their contest page says it's under construction. Will come back later for coding contests (the competitive programming page). But all challeneges page should be easy to scrape. 
+* __[TopCoder](https://www.topcoder.com/community/competitive-programming/)__: This website is wrttien with js and they do not have an data API that we can request for their json data directly. Fortunately they provide the RSS feed. We only need to request that url and parse the xml got returned.  
   * type: programming challenges, coding contest (###TODO)
 
 HackerEarth

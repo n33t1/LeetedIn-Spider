@@ -17,7 +17,7 @@ class EventsParser:
 		info['events'] = []
 		for event in events:
 			try:
-				temp = eParser(event).res
+				temp = eParser(event, url).res
 			except Exception:
 				continue
 			else:
