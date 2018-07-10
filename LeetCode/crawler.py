@@ -4,7 +4,7 @@
 import sys, os
 sys.path.append(os.path.abspath(__file__ + "/../../"))
 
-from utils.IEventsCrawlerDP import IEventsCrawlerDP 
+from utils.IEventsCrawlerDP import IEventsCrawlerDP  
 from parser import EParser 
 from pyquery import PyQuery as pq
 

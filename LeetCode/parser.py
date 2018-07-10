@@ -26,7 +26,7 @@ class EParser(IEParser):
 			res = dt[0]
 			return 'LeetCode ' + res
 		except Exception as e:
-			print "Cannot parse event name! Error: {}".format(repr(e))
+			print "Cannot parse event name! Error: " + e
 
 	def event_url_helper(self):
 		return self.url
@@ -41,7 +41,7 @@ class EParser(IEParser):
 			dt = dt[0]
 			return self.strToMillisec(dt)
 		except Exception as e:
-			print "Cannot parse registration deadline! Error: {}".format(repr(e))
+			print "Cannot parse registration deadline! Error: " + e
 
 	def strToMillisec(self, dt):
 		def timeHelper(time):
