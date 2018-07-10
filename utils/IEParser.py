@@ -26,8 +26,9 @@ class IEParser:
 			self.res['endDateTime'] = self.res['startDateTime'] + self.res['duratoin'] * 60
 		except Exception as e:
 			print "IEParser parse failed! Error: {}".format(repr(e))
-			traceback.print_exc()
-		finally:
+			raise
+			# traceback.print_exc()
+		else:
 			return self.res 
 			
 	def event_name_helper(self):

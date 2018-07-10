@@ -7,7 +7,7 @@ import re
 import json
 from pyquery import PyQuery as pq
 from pprint import pprint
-from EventsParser import EventsParser 
+from EventsParser import EventsParser  
 import traceback 
 
 class IEventsCrawler:
