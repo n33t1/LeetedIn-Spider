@@ -51,11 +51,11 @@ List of coding contests scraped and Python crawler libraries used:
 * __[TopCoder](https://www.topcoder.com/community/competitive-programming/)__: This website is wrttien with js and they do not have an data API that we can request for their json data directly. Fortunately they provide the RSS feed. We only need to request that url and parse the xml got returned.  
   * type: programming challenges, coding contest (###TODO)
 
-HackerEarth
+* __[HackerEarth](https://www.hackerearth.com/challenges/)__: Found their backend API url. But the long tokens seems suspicious and they might change later. 
+  * type: programming challenges
 
-Kaggle 
-
-Kaggle 
+* __[Kaggle](https://www.kaggle.com/competitions)__: Dynamic website with no data API. Should probly load html with Selenium and scrape the tables later. 
+  * type: programming challenges, data science
 
 ## Setup
 ```
