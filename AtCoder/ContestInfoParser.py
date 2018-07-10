@@ -75,7 +75,7 @@ class EventParser:
 	def start_date_helper(self):
 		# parse start date to utc millisec
 		href = self.event[0].xpath('./a/@href')[0]
-		pattern = re.compile("iso=(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)&p1", re.S)
+		pattern = re.compile(r'iso=(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)&p1', re.S)
 		items = re.findall(pattern, href)
 		date_info = map(int, list(items[0]))
 		utc = pytz.utc

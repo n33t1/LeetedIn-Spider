@@ -2,8 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import traceback
+import re
+from datetime import datetime, timedelta
+from pytz import timezone
+import pytz
+import calendar
 
 class IEParser:
+	SIX_MONTH_IN_MINUTES = 262800
 	DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
 	def __init__(self, event, url=None):
@@ -43,11 +49,34 @@ class IEParser:
 	def start_date_helper(self):
 		raise NotImplementedError
 	
+	def event_length_helper(self):
+		raise NotImplementedError
+
 	def end_date_helper(self):
 		return self.res['startDateTime'] + self.res['duratoin'] * 60
 
-	def event_length_helper(self):
-		raise NotImplementedError
+	def calc_event_length(self, start_milli=None, end_milli=None):
+		minutes = (end_milli - start_milli) / 60
+		if minutes > self.SIX_MONTH_IN_MINUTES:
+			raise Exception('Event Not Valid! Eventname: ' + self.res['name'])
+		else:
+			return minutes
 	
 	def event_info_helper(self):
 		raise NotImplementedError
+	
+	def _localize(self, dt, tz=None):
+		india_tz = timezone('Asia/Calcutta')
+		india_dt = india_tz.localize(dt)
+		return india_dt
+
+	def IOS_to_dt(self, ios):
+		utc = pytz.utc
+		dt = datetime.strptime(ios[:-6], '%Y-%m-%dT%H:%M:%S')
+		local_dt = self._localize(dt)
+		utc_dt = local_dt.astimezone(utc)
+		millisec = calendar.timegm(utc_dt.timetuple())	
+		return millisec
+	
+	def dt_to_IOS(self, millisec):
+		return datetime.utcfromtimestamp(float(millisec))
