@@ -23,11 +23,11 @@ class IEParser:
 			self.res['startDateTime'] = self.start_date_helper()
 			self.res['registrationDeadline'] = self.registration_ddl_helper() or self.res['startDateTime']
 			self.res['duratoin'] = self.event_length_helper()
-			self.res['endDateTime'] = self.res['startDateTime'] + self.res['duratoin'] * 60
+			self.res['endDateTime'] = self.end_date_helper()
 		except Exception as e:
 			print "IEParser parse failed! Error: {}".format(repr(e))
+			traceback.print_exc()
 			raise
-			# traceback.print_exc()
 		else:
 			return self.res 
 			

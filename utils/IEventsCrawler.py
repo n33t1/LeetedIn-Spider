@@ -1,11 +1,6 @@
 #!/usr/bin/env python -OO
 # -*- coding: utf-8 -*-
 
-import requests
-from requests.exceptions import RequestException
-import re
-import json
-from pyquery import PyQuery as pq
 from pprint import pprint
 from EventsParser import EventsParser  
 import traceback 
@@ -31,25 +26,31 @@ class IEventsCrawler:
 
 	def get_response(self, response):
 		return response.text
+	
+	def request_page(self, _url):
+		import requests 
+
+		response = requests.get(_url, headers=self.headers, timeout=2)
+		if response.status_code == 200:
+			return self.get_response(response)
 
 	def get_page(self, _url):
 		res = None
 		try:
 			print "downloading %s" % _url
-			response=requests.get(_url, headers=self.headers, timeout=2)
-			if response.status_code==200:
-				res = self.get_response(response)
+			res = self.request_page(_url)
 		except Exception as e:
 			print "Something went wrong with get_page! Error: {}".format(repr(e))
 			traceback.print_exc()
+			raise
 		finally:
 			return res
 
-	def parse_page(self, resp):
+	def parse_page(self, resp, _url=None):
 		print "now parsing ..."
 		data = []
 		try:
-			data = EventsParser(self.eParser, resp, self.title).data
+			data = EventsParser(self.eParser, resp, self.title, _url).data
 		except Exception as e:
 			print "parse_page failed! Error: {}".format(repr(e))
 			traceback.print_exc()

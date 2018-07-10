@@ -1,5 +1,9 @@
 #!/usr/bin/env python -OO
 # -*- coding: utf-8 -*-
+import sys, os
+sys.path.append(os.path.abspath(__file__ + "/../../"))
+
+from utils.IEParser import IEParser 
 
 import re
 from datetime import datetime, timedelta
@@ -8,59 +12,30 @@ import pytz
 import calendar
 from pprint import pprint
 
-DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
-
-class ContestInfoParser:
-	def __init__(self, events, url):
-		self.events = events
-		self.url = url
-		self.data = []
+class EParser(IEParser):
+	def __init__(self, event, url=None):
+		event = event.decode('utf-8')
+		event = str(event)
+		IEParser.__init__(self, event, url)
+		self.duration = None
 		self.run()
-	
-	def run(self):
-		for e in self.events:
-			e = e.decode('utf-8')
-			e = str(e)
-
-			res = {}
-			res['events'] = EventParser(e, self.url).res
-			res['event_title'] = "Leetcode Weekly Contest"
-			self.data.append(res)
-
-class EventParser:
-	def __init__(self, event, url):
-		self.event = event
-		self.url = url
-		self.res = {}
-		self.reg_ddl_millisec = None 
-		self.run()
-
-	# def __repr__(self):
-	# 	from pprint import pformat
-	# 	return pformat(self.res, indent=4, width=1)
-	
-	def run(self):	
-		try:
-			self.res['name'] = self.event_name_helper()
-			self.res['registrationDeadline'] = self.start_date_helper()
-			self.res['startDateTime'] = self.res['registrationDeadline']
-			self.res['duratoin'] = self.duration
-		except Exception as e:
-			print e
-			print "ContestInfo parse failed!"
-		finally:
-			return self.res
 
 	def event_name_helper(self):
-		dt = re.findall('Weekly\sContest\s\d+', self.event)
+		dt = re.findall(r'Weekly\sContest\s\d+', self.event)
 		try:
 			res = dt[0]
 			return 'LeetCode ' + res
 		except Exception as e:
 			print "Cannot parse event name! Error: " + e
 
+	def event_url_helper(self):
+		return self.url
+	
+	def registration_ddl_helper(self):
+		pass
+
 	def start_date_helper(self):
-		pattern = re.compile("(\w+\s\d+\,\s\d+.*?)\-\s(\d+:\d+.*\w+)", re.S)
+		pattern = re.compile(r'(\w+\s\d+\,\s\d+.*?)\-\s(\d+:\d+.*\w+)', re.S)
 		dt = re.findall(pattern, self.event)
 		try:
 			dt = dt[0]
@@ -70,7 +45,7 @@ class EventParser:
 
 	def strToMillisec(self, dt):
 		def timeHelper(time):
-			time = re.findall('(\d+):(\d+).*(\w+\w+)', time)
+			time = re.findall(r'(\d+):(\d+).*(\w+\w+)', time)
 			time = time[0]
 			hour, minutes, locale = int(time[0]), int(time[1]), time[2]
 			if locale == "PM":
@@ -93,8 +68,8 @@ class EventParser:
 		self.duration = delta
 		return millisec
 
-	def registration_ddl_helper(self):
-		pass
-	
 	def event_length_helper(self):
+		return self.duration
+		
+	def event_info_helper(self):
 		pass
