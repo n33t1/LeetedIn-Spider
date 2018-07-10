@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 from pytz import timezone
 import pytz
 import calendar
-from pyquery import PyQuery as pq
 
 DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
