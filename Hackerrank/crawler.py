@@ -4,7 +4,7 @@ import sys, os
 sys.path.append(os.path.abspath(__file__ + "/../../"))
 
 from utils.IEventsCrawler import IEventsCrawler 
-from HackerrankEParser import EParser
+from parser import EParser
 
 import requests
 from requests.exceptions import RequestException
