@@ -6,11 +6,12 @@ sys.path.append(os.path.abspath(__file__ + "/../../"))
 
 from utils.IEventsCrawlerDP import IEventsCrawlerDP  
 from parser import EParser 
+from pyquery import PyQuery as pq
 
 class Crawler(IEventsCrawlerDP):
-	_URL = ['https://leetcode.com/contest/']
-	title = "LeetCode"
-	XPATH = '//*[@id="contest-app"]/div/div/div[2]/div[1]/div/div[1]/div/a/div'
+	_URL = ['YOUR URL']
+	title = "YOUR TITLE"
+	XPATH = 'YOUR XPATH'
 
 	def __init__(self):
 		IEventsCrawlerDP.__init__(self, EParser)
@@ -30,4 +31,3 @@ class Crawler(IEventsCrawlerDP):
 		self.driver.close()
 
 cc = Crawler()
-
