@@ -13,8 +13,8 @@ import calendar
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
+	def __init__(self, event, **kwargs):
+		IEParser.__init__(self, event)
 		if event['archived'] or event['name'] == 'ProjectEuler+':
 			raise Exception("Event Not Valid!")
 		self.run()

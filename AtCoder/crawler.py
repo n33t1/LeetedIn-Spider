@@ -13,7 +13,7 @@ class Crawler(IEventsCrawler):
 	title = "AtCoder"
 
 	def __init__(self):
-		IEventsCrawler.__init__(self, self._URL, EParser, self.title)
+		IEventsCrawler.__init__(self, EParser)
 		self.run()
 
 	def get_and_parse_page(self):
@@ -30,7 +30,7 @@ class Crawler(IEventsCrawler):
 			if not contests:
 				raise Exception("No Upcoming Event!")
 			else:		
-				_parsed = self.parse_page(contests)
+				_parsed = self.parse_page(contests, self.title)
 				self.res.extend(_parsed)
 
 cc = Crawler()

@@ -15,10 +15,15 @@ from pyquery import PyQuery as pq
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None, info=None):
-		IEParser.__init__(self, event, url, info)
-		# print "self.event_info", info
-		# print self.event
+	def __init__(self, event, **kwargs):
+		IEParser.__init__(self, event)
+
+		# can be done better
+		if 'url' in kwargs.keys():
+			self.url = kwargs['url']
+		if 'event_info' in kwargs.keys():
+			self.event_info = kwargs['event_info']
+
 		if self.event['name'] == 'Registration':
 			raise Exception('Invalid event!')
 		self.run()

@@ -18,7 +18,7 @@ class Crawler(IEventsCrawler):
 	title = "CodeChef"
 
 	def __init__(self):
-		IEventsCrawler.__init__(self, self._URL, EParser, self.title)
+		IEventsCrawler.__init__(self, EParser)
 		self.run()
 
 	def get_and_parse_page(self):
@@ -27,7 +27,7 @@ class Crawler(IEventsCrawler):
 			if not response:
 				continue
 			_json = json.loads(response)['items']
-			_parsed = self.parse_page(_json)
+			_parsed = self.parse_page(_json, self.title)
 			self.res.extend(_parsed)
 
 cc = Crawler()

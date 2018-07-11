@@ -10,10 +10,9 @@ from pyquery import PyQuery as pq
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
+	def __init__(self, event, **kwargs):
+		IEParser.__init__(self, event)
 		self.start_milli, self.end_milli = None, None
-		# print self.event
 		self.run()
 
 	def event_name_helper(self):

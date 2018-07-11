@@ -13,10 +13,11 @@ import calendar
 from pprint import pprint
 
 class EParser(IEParser):
-	def __init__(self, event, url=None):
+	def __init__(self, event, **kwargs):
 		event = event.decode('utf-8')
 		event = str(event)
-		IEParser.__init__(self, event, url)
+		IEParser.__init__(self, event)
+		self.url = kwargs['url']
 		self.duration = None
 		self.run()
 

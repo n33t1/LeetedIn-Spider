@@ -15,8 +15,8 @@ from pyquery import PyQuery as pq
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
+	def __init__(self, event, **kwars):
+		IEParser.__init__(self, event)
 		self.run()
 
 	def event_name_helper(self):

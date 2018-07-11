@@ -16,8 +16,8 @@ from pprint import pprint
  
 class EParser(IEParser):
 	SIX_MONTH_IN_MINUTES = 262800
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
+	def __init__(self, event, **kwargs):
+		IEParser.__init__(self, event)
 		self.start_milli, self.end_milli = None, None
 		# print self.event
 		self.run()

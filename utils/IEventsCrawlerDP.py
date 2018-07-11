@@ -11,8 +11,8 @@ class IEventsCrawlerDP(IEventsCrawler):
 	driver = webdriver.Chrome()
 	wait = WebDriverWait(driver, 10)
 
-	def __init__(self, url, eParser, title):
-		IEventsCrawler.__init__(self, url, eParser, title)
+	def __init__(self, eParser):
+		IEventsCrawler.__init__(self, eParser)
 
 	def decode_page(self, element):
 		return self.driver.page_source

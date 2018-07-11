@@ -12,10 +12,8 @@ class IEParser:
 	SIX_MONTH_IN_MINUTES = 262800
 	DATE_HASH = {'days': 1, 'day': 1, 'weeks': 7, 'week': 7}
 
-	def __init__(self, event, url=None, event_info=None):
+	def __init__(self, event):
 		self.event = event
-		self.url = url
-		self.event_info = event_info
 		self.res = {}
 
 	def __repr__(self):

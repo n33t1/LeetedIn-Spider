@@ -54,11 +54,11 @@ class IEventsCrawler:
 		finally:
 			return res
 
-	def parse_page(self, resp, title, _url=None, info=None):
+	def parse_page(self, resp, title, _url=None, event_info=None):
 		print "now parsing {} ...".format(title)
 		data = []
 		try:
-			data = EventsParser(self.eParser, resp, title, _url, info).data
+			data = EventsParser(self.eParser, resp, title, url=_url, event_info=event_info).data
 		except Exception as e:
 			print "parse_page failed! Error: {}".format(repr(e))
 			traceback.print_exc()

@@ -15,9 +15,9 @@ from lxml import etree
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
-		
+	def __init__(self, event, **kwargs):
+		IEParser.__init__(self, event)
+
 		if self.event.xpath('./td[2]/a/text()')[0] == 'practice contest':
 			raise Exception('Invalid event!')
 		

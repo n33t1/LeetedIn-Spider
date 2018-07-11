@@ -10,11 +10,11 @@ from pyquery import PyQuery as pq
 
 class Crawler(IEventsCrawlerDP):
 	_URL = ['https://leetcode.com/contest/']
-	TITLE = "LeetCode"
+	title = "LeetCode"
 	XPATH = '//*[@id="contest-app"]/div/div/div[2]/div[1]/div/div[1]/div/a/div'
 
 	def __init__(self):
-		IEventsCrawlerDP.__init__(self, self._URL, EParser, self.TITLE)
+		IEventsCrawlerDP.__init__(self, EParser)
 		self.run()
 
 	def decode_page(self, element):
@@ -25,7 +25,7 @@ class Crawler(IEventsCrawlerDP):
 			response = self.get_page(_url, self.XPATH) 
 			if not response:
 				continue
-			_parsed = self.parse_page(response, _url) 
+			_parsed = self.parse_page([response], self.title, _url) 
 			self.res.extend(_parsed)
 		
 		self.driver.close()

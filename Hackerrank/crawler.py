@@ -12,7 +12,7 @@ from pyquery import PyQuery as pq
 
 class HackerrankCrawler(IEventsCrawler):
 	_URL = ['https://www.hackerrank.com/rest/contests/upcoming?offset=0&limit=10&contest_slug=active']
-	TITLE = ['Hackerrank']
+	title = 'Hackerrank'
 
 	def __init__(self):
 		IEventsCrawler.__init__(self, EParser)
@@ -22,13 +22,12 @@ class HackerrankCrawler(IEventsCrawler):
 		return response.json()
 
 	def get_and_parse_page(self):
-		for i, _url in enumerate(self._URL):
-			title = self.TITLE[i]
+		for _url in self._URL:
 			_json = self.get_page(_url)['models']
 			if not _json:
 				raise Exception("No Upcoming Event!")
 			else:		
-				_parsed = self.parse_page(_json, title)
+				_parsed = self.parse_page(_json, self.title)
 				self.res.extend(_parsed)
 
 hr = HackerrankCrawler()

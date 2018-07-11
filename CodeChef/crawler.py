@@ -15,7 +15,7 @@ class Crawler(IEventsCrawler):
 	title = "CodeChef"
 
 	def __init__(self):
-		IEventsCrawler.__init__(self, self._URL, EParser, self.title)
+		IEventsCrawler.__init__(self, EParser)
 		self.run()
 
 	def get_and_parse_page(self):
@@ -23,12 +23,11 @@ class Crawler(IEventsCrawler):
 			response = self.get_page(_url)
 			if not response:
 				continue
-			# print response
 			doc = pq(response)
 			present_events = doc("#primary-content > div > div:nth-child(16) > table > tbody > tr")
 			future_events = doc("#primary-content > div > div:nth-child(19) > table > tbody > tr")
 			events = present_events + future_events
-			_parsed = self.parse_page(events.items())
+			_parsed = self.parse_page(events.items(), self.title)
 			self.res.extend(_parsed)
 
 cc = Crawler()
