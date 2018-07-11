@@ -10,23 +10,26 @@ from pyquery import PyQuery as pq
 
 class Crawler(IEventsCrawler):
 	_URL = ["https://code.google.com/codejam/", "https://code.google.com/codejam/kickstart/"]
-	title = "Google Code Jam"
 
 	def __init__(self):
-		IEventsCrawler.__init__(self, self._URL, EParser, self.title)
+		IEventsCrawler.__init__(self, EParser)
 		self.run()
+	
+	def get_response(self, response):
+		return response.json()
 
 	def get_and_parse_page(self):
 		for _url in self._URL:
-			response = self.get_page(_url)
-			if not response:
-				continue
-			# print response
-			doc = pq(response)
-			present_events = doc("#primary-content > div > div:nth-child(16) > table > tbody > tr")
-			future_events = doc("#primary-content > div > div:nth-child(19) > table > tbody > tr")
-			events = present_events + future_events
-			_parsed = self.parse_page(events.items())
-			self.res.extend(_parsed)
+			data_api = _url + 'schedule?data=1'
+			_json = self.get_page(data_api)['schedules']
+			if not _json:
+				raise Exception("No Upcoming Event!")
+			else:		
+				for events in _json:
+					title, info = events['event_title'], None
+					if 'event_info' in events.keys():
+						info = events['event_info']
+					_parsed = self.parse_page(events['events'], title, _url, info)
+					self.res.extend(_parsed)
 
 cc = Crawler()

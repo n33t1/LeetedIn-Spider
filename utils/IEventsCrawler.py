@@ -10,10 +10,8 @@ class IEventsCrawler:
 		"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36" 
 	}
 
-	def __init__(self, _URL, eParser, title, **kwargs):
-		self._URL = _URL
+	def __init__(self, eParser, **kwargs):
 		self.eParser = eParser
-		self.title = title
 		self.headers = kwargs['headers'] if 'headers' in kwargs else self.headers
 		self.res = []
 
@@ -56,11 +54,11 @@ class IEventsCrawler:
 		finally:
 			return res
 
-	def parse_page(self, resp, _url=None):
-		print "now parsing ..."
+	def parse_page(self, resp, title, _url=None, info=None):
+		print "now parsing {} ...".format(title)
 		data = []
 		try:
-			data = EventsParser(self.eParser, resp, self.title, _url).data
+			data = EventsParser(self.eParser, resp, title, _url, info).data
 		except Exception as e:
 			print "parse_page failed! Error: {}".format(repr(e))
 			traceback.print_exc()

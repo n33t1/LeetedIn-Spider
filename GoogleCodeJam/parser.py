@@ -15,28 +15,45 @@ from pyquery import PyQuery as pq
 from pprint import pprint
  
 class EParser(IEParser):
-	def __init__(self, event, url=None):
-		IEParser.__init__(self, event, url)
+	def __init__(self, event, url=None, info=None):
+		IEParser.__init__(self, event, url, info)
+		# print "self.event_info", info
 		# print self.event
+		if self.event['name'] == 'Registration':
+			raise Exception('Invalid event!')
 		self.run()
 
 	def event_name_helper(self):
-		pass
+		return self.event['name']
 
 	def event_url_helper(self):
-		pass
+		return self.url
 
 	def registration_ddl_helper(self):
 		pass
 
-	def start_date_helper(self):
-		pass
-	
-	def end_date_helper(self):
-		pass
+	def _localize(self, dt, tz=None):
+		return dt
 
+	def start_date_helper(self):
+		dt = self.event['startDateTime']
+		millisec = self.IOS_to_dt(dt)
+		
+		if self.event['name'] == 'Registration':
+			t_0 = dt
+			delta = self.event_length_helper()
+			t_1 = t_0 + delta * 60
+			self.reg_ddl = t_1
+		return millisec
+		
 	def event_length_helper(self):
-		pass
+		return int(self.event['duration'])
 		
 	def event_info_helper(self):
-		pass
+		if self.event_info:
+			return self.event_info
+		elif not self.event['name'] == 'Practice Session' \
+			and not self.event['name'] == 'Qualification Round':
+			return "You have to pass previous rounds!"
+
+
