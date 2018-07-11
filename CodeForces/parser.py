@@ -54,10 +54,17 @@ class EParser(IEParser):
 		# print(datetime.utcfromtimestamp(float(millisec)))
 		return millisec
 
+	def _localize(self, dateinfo, tz=None):
+		moscow_tz = timezone('Europe/Moscow')
+		moscow_dt = moscow_tz.localize(datetime(dateinfo[2], dateinfo[1], dateinfo[0], dateinfo[3], dateinfo[4], 0))
+		return moscow_dt
+
 	def start_date_helper(self):
 		start = self.event("td:nth-child(3)")
 		href = start("a").attr("href")
-		millisec = self.url_to_dt(href)
+		pattern = re.compile(".*?day=(.*?)&month=(.*?)&year=(.*?)&hour=(.*?)&min=(.*?)&sec=(.*?)&p1=(.*?)?$", re.S)
+		
+		millisec = self.url_to_dt(pattern, href) 
 		return millisec
 
 	def event_length_helper(self):
