@@ -24,8 +24,12 @@ class IEventsCrawler:
 		f.close()
 
 	def run(self):
-		self.get_and_parse_page()
-		pprint(self.res)
+		try:
+			self.get_and_parse_page()
+		except Exception as e:
+			print "Something went wrong with get_and_parse_page! Error: {}".format(repr(e))
+		else:
+			pprint(self.res)
 
 	def get_and_parse_page(self):
 		pass 

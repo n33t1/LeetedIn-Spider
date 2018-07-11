@@ -70,6 +70,21 @@ class IEParser:
 		india_dt = india_tz.localize(dt)
 		return india_dt
 
+	def url_to_dt(self, href):
+		pattern = re.compile(".*?day=(.*?)&month=(.*?)&year=(.*?)&hour=(.*?)&min=(.*?)&sec=(.*?)&p1=(.*?)?$", re.S)
+		items = re.findall(pattern, href)
+		date_info = map(int, list(items[0]))
+		utc = pytz.utc
+		moscow_tz = timezone('Europe/Moscow')
+		moscow_dt = moscow_tz.localize(datetime(date_info[2], date_info[1], date_info[0], date_info[3], date_info[4], 0))
+		# utc time in "Y-M-D H:M:S Z" format
+		utc_dt = moscow_dt.astimezone(utc)
+		# utc_dt in millisec format
+		millisec = calendar.timegm(utc_dt.timetuple())
+		# # convert back to "Y-M-D H:M:S Z" format to verify
+		# print(datetime.utcfromtimestamp(float(d)))
+		return millisec
+
 	def IOS_to_dt(self, ios):
 		utc = pytz.utc
 		dt = datetime.strptime(ios[:-6], '%Y-%m-%dT%H:%M:%S')
