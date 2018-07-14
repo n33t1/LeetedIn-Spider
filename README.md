@@ -57,6 +57,9 @@ List of coding contests scraped and Python crawler libraries used:
 * __[Kaggle](https://www.kaggle.com/competitions)__: Dynamic website with no data API. Should probly load html with Selenium and scrape the tables later. 
   * type: programming challenges, data science
 
+* __[Bounty One](https://talk.bountyone.io/)__
+###TODO 
+
 ## Setup
 ```
 pip install requirements
